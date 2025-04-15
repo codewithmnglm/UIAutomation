@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="AutomationTestSuite">
+    <test name="RegressionTests">
+        <classes>
+            <class name="com.uiautomation.framework.tests.Login.LoginUser" />
+            <!-- Add more test classes as needed -->
+        </classes>
+    </test>
+</suite>
