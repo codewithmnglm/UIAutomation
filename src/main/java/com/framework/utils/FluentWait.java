@@ -1,4 +1,4 @@
-package com.uiautomation.framework.utils;
+package com.framework.utils;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Wait;

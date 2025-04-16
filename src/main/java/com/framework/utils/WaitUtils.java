@@ -1,4 +1,4 @@
-package com.uiautomation.framework.utils;
+package com.framework.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

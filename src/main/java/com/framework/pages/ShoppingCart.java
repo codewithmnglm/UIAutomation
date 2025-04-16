@@ -1,6 +1,6 @@
-package com.uiautomation.framework.pages;
+package com.framework.pages;
 
-import com.uiautomation.framework.base.BasePage;
+import com.framework.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -1,4 +1,4 @@
-package com.uiautomation.framework;
+package com.framework.factory;
 
 public class Constant {
 
@@ -13,6 +13,8 @@ public class Constant {
     public static final String LOGIN_PAGE_TITLE="Account Login";
 
     public static final String ACCOUNT_PAGE_TITLE="My Account";
+
+    public static final String REGISTER_PAGE_TITLE="Register Account";
 
     public static final String INVALID_USER_WARNING="Warning: No match for E-Mail Address and/or Password.";
 }
