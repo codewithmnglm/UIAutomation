@@ -1,4 +1,4 @@
-package com.uiautomation.framework.factory;
+package com.framework.factory;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

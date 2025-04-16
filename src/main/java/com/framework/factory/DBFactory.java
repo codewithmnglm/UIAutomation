@@ -1,7 +1,7 @@
-package com.uiautomation.framework.factory;
+package com.framework.factory;
 
 import org.slf4j.Logger;
-import com.uiautomation.framework.reporting.TestLog;
+import com.framework.reporting.TestLog;
 
 import java.sql.*;
 

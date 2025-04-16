@@ -1,7 +1,8 @@
-package com.uiautomation.framework.pages;
+package com.framework.pages;
 
-import com.uiautomation.framework.base.BasePage;
-import com.uiautomation.framework.utils.WaitUtils;
+import com.framework.base.BasePage;
+import com.framework.reporting.TestLog;
+import com.framework.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,7 +23,7 @@ public class Account extends BasePage {
     private WebElement changePwd;
 
     @FindBy(xpath = "//a[text()='Modify your address book entries']")
-    private WebElement modifyAdsress;
+    private WebElement modifyAddress;
 
     @FindBy(xpath = "//a[text()='Modify your wish list']")
     private WebElement modifyWishList;
@@ -45,12 +46,47 @@ public class Account extends BasePage {
     @FindBy(xpath = "//a[text()='Recurring payments']")
     private WebElement recurringPayments;
 
+    @FindBy(xpath = "//span[text()='My Account']")
+    private WebElement myAccount;
+
+    @FindBy(xpath = "//a[text()='Logout']")
+    private WebElement logout;
+
+    public Logout logout() {
+        click(myAccount);
+        click(logout);
+        return new Logout(driver);
+    }
+
     public EditAccountPage goToEditAccountPage() {
         editAccount.click();
         return new EditAccountPage(driver);
     }
 
-    public class UpdatePassword extends Account {
+    public void verifyAccountPageElements() {
+        verifyElementDisplayed(editAccount, "Edit Account");
+        verifyElementDisplayed(changePwd, "Change Password");
+        verifyElementDisplayed(modifyAddress, "Modify Address Book");
+        verifyElementDisplayed(modifyWishList, "Modify Wish List");
+        verifyElementDisplayed(viewOrderHistory, "View Order History");
+        verifyElementDisplayed(downloads, "Downloads");
+        verifyElementDisplayed(yourRewardPoints, "Your Reward Points");
+        verifyElementDisplayed(viewReturnReq, "View Return Requests");
+        verifyElementDisplayed(yourTxns, "Your Transactions");
+        verifyElementDisplayed(recurringPayments, "Recurring Payments");
+    }
+
+    private void verifyElementDisplayed(WebElement element, String elementName) {
+        if (WaitUtils.waitForVisibility(driver, element).isEnabled() || WaitUtils.waitForVisibility(driver, element).isDisplayed()) {
+            TestLog.stepInfo(elementName + " is visible and enabled.");
+        } else {
+            throw new AssertionError(elementName + " is NOT visible or enabled.");
+        }
+
+    }
+
+
+    public static class UpdatePassword extends Account {
 
         public UpdatePassword(WebDriver driver) {
             super(driver);
@@ -86,7 +122,7 @@ public class Account extends BasePage {
 
     }
 
-    public class EditAccountPage extends Account {
+    public static class EditAccountPage extends Account {
 
         public EditAccountPage(WebDriver driver) {
             super(driver);
@@ -128,6 +164,51 @@ public class Account extends BasePage {
             return new Account(driver);
 
         }
+
+
+    }
+
+    public static class Logout extends Account {
+
+        public Logout(WebDriver driver) {
+            super(driver);
+            PageFactory.initElements(driver, this);
+        }
+
+        @FindBy(xpath = "//h1[text()='Account Logout']")
+        private WebElement accountLogout;
+
+        @FindBy(xpath = "//p[text()='You have been logged off your account. It is now safe to leave the computer.']")
+        private WebElement loggOffMsg;
+
+        @FindBy(xpath = "//p[text()='Your shopping cart has been saved, the items inside it will be restored whenever you log back into your account.']")
+        private WebElement logoutMsg;
+
+        @FindBy(xpath="//a[text()='Continue']")
+        private WebElement continueBtn;
+
+        public HomePage navigateToHomePage(){
+            click(continueBtn);
+           return new HomePage(driver);
+        }
+
+        public boolean isLogOffMsgDisplayed() {
+            return WaitUtils.waitForVisibility(driver, loggOffMsg).isDisplayed();
+        }
+
+        public boolean isLogOutMsgDisplayed() {
+            return WaitUtils.waitForVisibility(driver, logoutMsg).isDisplayed();
+        }
+
+        public boolean isAccountLogoutDisplayed() {
+            return WaitUtils.waitForVisibility(driver, accountLogout).isDisplayed();
+        }
+
+        public boolean isContinueBtnEnabled() {
+            return WaitUtils.waitForVisibility(driver, continueBtn).isEnabled();
+        }
+
+
 
 
     }

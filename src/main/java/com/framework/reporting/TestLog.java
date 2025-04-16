@@ -1,4 +1,4 @@
-package com.uiautomation.framework.reporting;
+package com.framework.reporting;
 
 
 import org.apache.log4j.Logger;

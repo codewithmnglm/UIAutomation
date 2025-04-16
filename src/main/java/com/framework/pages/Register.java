@@ -1,7 +1,6 @@
-package com.uiautomation.framework.pages;
+package com.framework.pages;
 
-import com.uiautomation.framework.base.BasePage;
-import com.uiautomation.framework.utils.WaitUtils;
+import com.framework.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -44,7 +43,7 @@ public class Register extends BasePage {
     @FindBy(xpath = "//input[contains(@value,'Continue')]")
     private WebElement continueButton;
 
-    public void registerNewUser(String firstNameValue, String lastNameValue, String emailValue,
+    public Account registerNewUser(String firstNameValue, String lastNameValue, String emailValue,
                                 String telephoneValue, String pwdValue, String confirmPwdValue) {
 
         enterText(firstName, firstNameValue);
@@ -57,6 +56,8 @@ public class Register extends BasePage {
         clickElement(noSubs);
         clickElement(agreeAgreement);
         clickElement(continueButton);
+
+        return new Account(driver);
     }
 
     private void enterText(WebElement element, String value) {

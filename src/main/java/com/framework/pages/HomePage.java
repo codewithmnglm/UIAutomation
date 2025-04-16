@@ -1,7 +1,8 @@
-package com.uiautomation.framework.pages;
+package com.framework.pages;
 
-import com.uiautomation.framework.Constant;
-import com.uiautomation.framework.base.BasePage;
+import com.framework.factory.Constant;
+import com.framework.base.BasePage;
+import com.framework.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -19,11 +20,9 @@ public class HomePage extends BasePage {
 
     }
 
-    public String product="2";
-
     By addToCart = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
-    By addToWishList= By.xpath("//div[@id='content']//div[@class='row']/div["+product+"]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
-    By compareProduct =By.xpath("//div[@id='content']//div[@class='row']/div["+product+"]/div[1]/div[3]//button[@data-original-title=\"Compare this Product\"]");
+    By addToWishList = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
+    By compareProduct = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title=\"Compare this Product\"]");
 
 
     @FindBy(xpath = "//img[@title='naveenopencart']")
@@ -101,7 +100,7 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@title,'Logout')]")
     private WebElement logout;
 
-    public void goTo() throws InterruptedException {
+    public void goTo() {
         this.driver.get(Constant.BASE_URL);
         this.driver.manage().window().maximize();
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -156,7 +155,25 @@ public class HomePage extends BasePage {
         return new ShoppingCart(driver);
     }
 
+    public boolean isPageLogoDisplayed() {
+        return WaitUtils.waitForVisibility(driver, pageLogo).isDisplayed();
+    }
 
+    public boolean isMyAccountEnabled() {
+        return WaitUtils.waitForVisibility(driver, myAccount).isEnabled();
+    }
+
+    public boolean isWishListEnabled() {
+        return WaitUtils.waitForVisibility(driver, wishList).isDisplayed();
+    }
+
+    public boolean isSearchBarEnabled() {
+        return WaitUtils.waitForVisibility(driver, searchBar).isEnabled();
+    }
+
+    public boolean isSearchIconEnabled() {
+        return WaitUtils.waitForVisibility(driver, searchIcon).isEnabled();
+    }
 
     public String verifyCurrency(String currency) {
 

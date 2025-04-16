@@ -1,12 +1,13 @@
-package com.uiautomation.framework.base;
+package com.framework.base;
 
-import com.uiautomation.framework.utils.WaitUtils;
+import com.framework.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class BasePage {
 
     protected WebDriver driver;
+    public String product = "2";
 
     public BasePage(WebDriver driver){
         this.driver=driver;
