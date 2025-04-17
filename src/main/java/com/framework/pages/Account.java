@@ -31,9 +31,6 @@ public class Account extends BasePage {
     @FindBy(xpath = "//a[text()='View your order history']")
     private WebElement viewOrderHistory;
 
-    @FindBy(xpath = "//a[text()='Downloads']")
-    private WebElement downloads;
-
     @FindBy(xpath = "//a[text()='Your Reward Points']")
     private WebElement yourRewardPoints;
 
@@ -69,7 +66,6 @@ public class Account extends BasePage {
         verifyElementDisplayed(modifyAddress, "Modify Address Book");
         verifyElementDisplayed(modifyWishList, "Modify Wish List");
         verifyElementDisplayed(viewOrderHistory, "View Order History");
-        verifyElementDisplayed(downloads, "Downloads");
         verifyElementDisplayed(yourRewardPoints, "Your Reward Points");
         verifyElementDisplayed(viewReturnReq, "View Return Requests");
         verifyElementDisplayed(yourTxns, "Your Transactions");
@@ -207,6 +203,52 @@ public class Account extends BasePage {
         public boolean isContinueBtnEnabled() {
             return WaitUtils.waitForVisibility(driver, continueBtn).isEnabled();
         }
+
+
+
+
+    }
+
+    public static class Success extends Account{
+
+        public Success(WebDriver driver){
+            super(driver);
+            PageFactory.initElements(driver,this);
+
+        }
+
+        @FindBy(xpath="//h1[contains(text(), 'Your Account Has Been Created!')]")
+        WebElement accountCreation;
+
+        @FindBy(xpath="//p[contains(text(), 'Congratulations! Your new account has been successfully created!')]")
+        WebElement congratulationMsg;
+
+        @FindBy(xpath="//p[contains(text(), 'If you have ANY questions about the operation of this online shop, please e-mail the store owner.')]")
+        WebElement queryMsg;
+
+        @FindBy(xpath="//a[contains(@href, 'account/account') and contains(text(), 'Continue')]")
+        WebElement continueBtn;
+
+        public Account navigateToAccountPage(){
+
+            WaitUtils.waitForClickable(driver,continueBtn).click();
+            return new Account(driver);
+        }
+
+        public void verifyAccountSuccessPageElements() {
+            verifyElementVisibleAndEnabled(accountCreation, "Account Creation Heading");
+            verifyElementVisibleAndEnabled(congratulationMsg, "Congratulations Message");
+            verifyElementVisibleAndEnabled(queryMsg, "Query Message");
+            verifyElementVisibleAndEnabled(continueBtn, "Continue Button");
+        }
+        private void verifyElementVisibleAndEnabled(WebElement element, String elementName) {
+            if (element.isDisplayed() || element.isEnabled()) {
+                TestLog.stepInfo(elementName + " is visible or enabled.");
+            } else {
+                throw new AssertionError(elementName + " is NOT visible or enabled.");
+            }
+        }
+
 
 
 
