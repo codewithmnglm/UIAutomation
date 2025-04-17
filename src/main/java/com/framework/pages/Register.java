@@ -1,6 +1,7 @@
 package com.framework.pages;
 
 import com.framework.base.BasePage;
+import com.framework.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,7 +44,32 @@ public class Register extends BasePage {
     @FindBy(xpath = "//input[contains(@value,'Continue')]")
     private WebElement continueButton;
 
-    public Account registerNewUser(String firstNameValue, String lastNameValue, String emailValue,
+    @FindBy(xpath="//div[contains(text(), 'Warning')]")
+    private WebElement warningMsg;
+
+
+    @FindBy(xpath="//div[contains(@class, 'alert-danger') and contains(text(), 'Warning')]")
+    private WebElement emailRegWarningMsg;
+
+    @FindBy(xpath="//a[contains(text(), 'login page')]")
+    private WebElement loginLink;
+
+    public Login navigateToLoginPage(){
+
+       WaitUtils.waitForClickable(driver,loginLink).click();
+       return new Login(driver);
+    }
+
+    public boolean isWarningMsgPresent(){
+
+        return WaitUtils.waitForVisibility(driver,warningMsg).isDisplayed();
+    }
+    public boolean isEmailRegWarningMsgPresent(){
+
+        return WaitUtils.waitForVisibility(driver,emailRegWarningMsg).isDisplayed();
+    }
+
+    public Account.Success registerNewUser(String firstNameValue, String lastNameValue, String emailValue,
                                 String telephoneValue, String pwdValue, String confirmPwdValue) {
 
         enterText(firstName, firstNameValue);
@@ -57,7 +83,7 @@ public class Register extends BasePage {
         clickElement(agreeAgreement);
         clickElement(continueButton);
 
-        return new Account(driver);
+        return new Account.Success(driver);
     }
 
     private void enterText(WebElement element, String value) {
