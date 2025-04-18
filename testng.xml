@@ -2,7 +2,7 @@
 <suite name="AutomationTestSuite">
     <test name="RegressionTests">
         <classes>
-            <class name="com.tests.Login.LoginUser" />
+            <class name="com.tests.login.LoginUser" />
             <!-- Add more test classes as needed -->
         </classes>
     </test>

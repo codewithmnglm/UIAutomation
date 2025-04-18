@@ -1,13 +1,15 @@
 package com.base;
 
+import com.framework.exceptions.PageLoadException;
+import com.framework.factory.Constant;
+import com.framework.pages.Account;
+import com.framework.pages.HomePage;
+import com.framework.pages.Register;
 import com.framework.reporting.TestLog;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.framework.factory.DriverFactory;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -23,14 +25,55 @@ public class BaseTest {
         this.driver = DriverFactory.getDriver("firefox"); //Get The Name of Browser from either config files or as JENKINS Input
         TestLog.stepInfo("Chrome Driver Set Up Completed");
 
-
     }
 
     @AfterTest
     public void quitDriver() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-       // this.driver.quit();
+        this.driver.quit();
         System.out.println("All Drivers Closed");
 
+    }
+
+    public void assertPageTitle(String actualTitle, String expectedTitle, String pageName) {
+        Assert.assertEquals(actualTitle, expectedTitle, pageName + " title mismatch");
+        TestLog.stepInfo("Title of the " + pageName + " is: " + actualTitle);
+    }
+
+    public HomePage launchHomePage() throws PageLoadException {
+        try {
+            HomePage homePage = new HomePage(driver);
+            homePage.goTo();
+            TestLog.stepInfo("✅ Home Page Opened Successfully");
+            return homePage;
+        } catch (Exception e) {
+            String errorMsg = "❌ Failed to load Home Page: " + e.getMessage();
+            TestLog.stepInfo(errorMsg);
+            throw new PageLoadException(errorMsg, e);
+        }
+    }
+
+    public Register goToRegisterUserPage() {
+        HomePage homePage = new HomePage(driver);
+        homePage.goTo();
+        assertPageTitle(homePage.getTitle(driver), Constant.HOME_PAGE_TITLE, "Home Page");
+        TestLog.stepInfo("Home Page Opened");
+        Register registerPage = homePage.navigateToRegistrationPage();
+        assertPageTitle(registerPage.getTitle(driver), Constant.REGISTER_PAGE_TITLE, "Register Page");
+        TestLog.stepInfo("Registration Page Opened");
+        return new Register(driver);
+    }
+
+    public void verifyLogoutPageElements(Account.Logout logoutPage){
+        Assert.assertTrue(logoutPage.isAccountLogoutDisplayed(), "Account Log Out Field is not Displayed");
+        Assert.assertTrue(logoutPage.isContinueBtnEnabled(), "Continue Button is not Enabled");
+        Assert.assertTrue(logoutPage.isLogOffMsgDisplayed(), "Log Off Msg Field is not Displayed");
+        Assert.assertTrue(logoutPage.isLogOutMsgDisplayed(), "Log Out Msg Field is not Displayed");
+        assertPageTitle(logoutPage.getTitle(driver),Constant.LOGOUT_PAGE_TITLE,"Log Out Page");
+    }
+
+    public void verifyElement(boolean condition, String elementName) {
+        Assert.assertTrue(condition, elementName + " is not present/enabled");
+        TestLog.stepInfo(elementName + " is Present and Enabled/Displayed");
     }
 }

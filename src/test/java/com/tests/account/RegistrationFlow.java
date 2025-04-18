@@ -1,4 +1,4 @@
-package com.tests.Account;
+package com.tests.account;
 
 import com.base.BaseTest;
 import com.framework.factory.Constant;
@@ -27,20 +27,16 @@ public class RegistrationFlow extends BaseTest {
                 "7871234", "rameshUser6", "rameshUser6");
         assertPageTitle(myAccountSuccess.getTitle(driver), Constant.ACCOUNT_PAGE_SUCCESS_TITLE, "Accounts Success Page");
         myAccountSuccess.verifyAccountSuccessPageElements();
-        TestLog.stepInfo("User is Successfully Registered and on Account Page");
+        TestLog.stepInfo("✅User is Successfully Registered and on Account Page");
         Account myAccount = myAccountSuccess.navigateToAccountPage();
         myAccount.verifyAccountPageElements();
         TestLog.stepInfo("My Account Page Elements Are Displayed and Enabled.");
         Account.Logout logoutPage = myAccount.logout();
-        Assert.assertTrue(logoutPage.isAccountLogoutDisplayed(), "Account Log Out Field is not Displayed");
-        Assert.assertTrue(logoutPage.isContinueBtnEnabled(), "Continue Button is not Enabled");
-        Assert.assertTrue(logoutPage.isLogOffMsgDisplayed(), "Log Off Msg Field is not Displayed");
-        Assert.assertTrue(logoutPage.isLogOutMsgDisplayed(), "Log Out Msg Field is not Displayed");
-        Assert.assertEquals(logoutPage.getTitle(driver), Constant.LOGOUT_PAGE_TITLE, "Log Out Page");
-        TestLog.stepInfo("User is Successfully Logged Out");
+        verifyLogoutPageElements(logoutPage);
+        TestLog.stepInfo("✅User is Successfully Logged Out");
         homePage = logoutPage.navigateToHomePage();
         assertPageTitle(homePage.getTitle(driver), Constant.HOME_PAGE_TITLE, "Home Page");
-        TestLog.stepInfo("User is Successfully Logged Out and on Home Page");
+        TestLog.stepInfo("✅ User is Successfully Logged Out and on Home Page");
     }
 
     @Test
@@ -53,10 +49,10 @@ public class RegistrationFlow extends BaseTest {
         Assert.assertTrue(registerPage.isWarningMsgPresent(), "Warning Alert Msg is not displayed");
         Login loginPage = registerPage.navigateToLoginPage();
         assertPageTitle(loginPage.getTitle(driver), Constant.LOGIN_PAGE_TITLE, "Login Page");
-        TestLog.stepInfo("User is At Login Page");
+        TestLog.stepInfo("✅User is At Login Page");
         Account accountPage = loginPage.loginAsExistingUser("abhishek007@gmail.com", "Patna246");
         assertPageTitle(loginPage.getTitle(driver), Constant.ACCOUNT_PAGE_TITLE, "Account Page");
-        TestLog.stepInfo("Create Registration For Existing User Test Case Passed");
+        TestLog.stepInfo("✅ Create Registration For Existing User Test Case Passed");
 
     }
 
@@ -72,21 +68,6 @@ public class RegistrationFlow extends BaseTest {
 
     }
 
-    private void assertPageTitle(String actualTitle, String expectedTitle, String pageName) {
-        Assert.assertEquals(actualTitle, expectedTitle, pageName + " title mismatch");
-        TestLog.stepInfo("Title of the " + pageName + " is: " + actualTitle);
-    }
-
-    private Register goToRegisterUserPage() {
-        homePage = new HomePage(driver);
-        homePage.goTo();
-        assertPageTitle(homePage.getTitle(driver), Constant.HOME_PAGE_TITLE, "Home Page");
-        TestLog.stepInfo("Home Page Opened");
-        Register registerPage = homePage.navigateToRegistrationPage();
-        assertPageTitle(registerPage.getTitle(driver), Constant.REGISTER_PAGE_TITLE, "Register Page");
-        TestLog.stepInfo("Registration Page Opened");
-        return new Register(driver);
-    }
 
 
 }
