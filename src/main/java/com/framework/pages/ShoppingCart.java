@@ -21,9 +21,11 @@ public class ShoppingCart extends BasePage {
     @FindBy(xpath = "//div[@class='col-sm-12']//p[text()='Your shopping cart is empty!']")
     private WebElement msg;
 
-    public void verifyPage() {
-        msg.getText();
+    @FindBy(xpath ="//a[contains(text(), 'Continue Shopping')]")
+    private WebElement continueShopping;
 
-    }
+    @FindBy(xpath = "//a[contains(text(), 'Checkout')]")
+    private WebElement checkout;
+
 
 }

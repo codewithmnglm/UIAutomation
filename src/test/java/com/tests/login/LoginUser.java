@@ -1,4 +1,4 @@
-package com.tests.Login;
+package com.tests.login;
 
 import com.base.BaseTest;
 import com.framework.exceptions.PageLoadException;
@@ -38,7 +38,7 @@ public class LoginUser extends BaseTest {
         accountPage = loginPage.loginAsExistingUser(Constant.EMAIL_ADDRESS, Constant.PWD);
         TestLog.stepInfo("Title of the Account Page is: " + accountPage.getTitle(driver));
 
-        TestLog.testPass("Verify Login User Test Case Passed");
+        TestLog.testPass("✅ Verify Login User Test Case Passed");
     }
 
     @Test
@@ -53,7 +53,7 @@ public class LoginUser extends BaseTest {
         Assert.assertEquals(loginPage.invalidUser(), Constant.INVALID_USER_WARNING, "Invalid user warning not shown");
 
         TestLog.stepInfo("Invalid login verified, warning displayed as expected.");
-        TestLog.testPass("Verify Invalid Login Test Case Passed");
+        TestLog.testPass("✅ Verify Invalid Login Test Case Passed");
     }
 
     @Test
@@ -67,31 +67,7 @@ public class LoginUser extends BaseTest {
         verifyElement(homePage.isSearchBarEnabled(), "Search Bar");
         verifyElement(homePage.isWishListEnabled(), "Wish List");
         verifyElement(homePage.isMyAccountEnabled(), "My Account List");
-        TestLog.testPass("Home Page UI element validation passed.");
+        TestLog.testPass("✅ Home Page UI element validation passed.");
     }
 
-
-
-    private HomePage launchHomePage() throws PageLoadException {
-        try {
-            HomePage homePage = new HomePage(driver);
-            homePage.goTo();
-            TestLog.stepInfo("✅ Home Page Opened Successfully");
-            return homePage;
-        } catch (Exception e) {
-            String errorMsg = "❌ Failed to load Home Page: " + e.getMessage();
-            TestLog.stepInfo(errorMsg);
-            throw new PageLoadException(errorMsg, e);
-        }
-    }
-
-    private void assertPageTitle(String actualTitle, String expectedTitle, String pageName) {
-        Assert.assertEquals(actualTitle, expectedTitle, pageName + " title mismatch");
-        TestLog.stepInfo("Title of the " + pageName + " is: " + actualTitle);
-    }
-
-    private void verifyElement(boolean condition, String elementName) {
-        Assert.assertTrue(condition, elementName + " is not present/enabled");
-        TestLog.stepInfo(elementName + " is Present and Enabled/Displayed");
-    }
 }
