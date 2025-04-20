@@ -13,6 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -22,7 +23,7 @@ public class BaseTest {
 
     @BeforeTest
     public void setUpDriver() {
-        this.driver = DriverFactory.getDriver("firefox"); //Get The Name of Browser from either config files or as JENKINS Input
+        this.driver = DriverFactory.getDriver("chrome"); //Get The Name of Browser from either config files or as JENKINS Input
         TestLog.stepInfo("Chrome Driver Set Up Completed");
 
     }
@@ -30,7 +31,7 @@ public class BaseTest {
     @AfterTest
     public void quitDriver() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-        this.driver.quit();
+       // this.driver.quit();
         System.out.println("All Drivers Closed");
 
     }
@@ -75,5 +76,16 @@ public class BaseTest {
     public void verifyElement(boolean condition, String elementName) {
         Assert.assertTrue(condition, elementName + " is not present/enabled");
         TestLog.stepInfo(elementName + " is Present and Enabled/Displayed");
+    }
+    public int returnProductIndex(String productName){
+
+        Map<String, Integer> map = Map.ofEntries(
+                Map.entry("MacBook", 1),
+                Map.entry("iPhone",2),
+                Map.entry("Apple Cinema 30", 3),
+                Map.entry("Canon EOS 5D", 4)
+        );
+
+        return map.get(productName);
     }
 }
