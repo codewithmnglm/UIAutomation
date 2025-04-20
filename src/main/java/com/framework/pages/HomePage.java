@@ -100,6 +100,9 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@title,'Logout')]")
     private WebElement logout;
 
+    @FindBy(xpath="//span[@id='cart-total']")
+    private WebElement cartItems;
+
     public void goTo() {
         this.driver.get(Constant.BASE_URL);
         this.driver.manage().window().maximize();
@@ -205,12 +208,30 @@ public class HomePage extends BasePage {
         return listOfFeaturedProducts;
     }
 
-    private By getAddToCartButton(int productIndex) {
+    private By locateProductByIndex(int productIndex) {
         return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
     }
 
-    public void clickAddToCart(int productIndex) {
-        this.driver.findElement(getAddToCartButton(productIndex)).click();
+    private By locateProductByName(String productName) {
+        return By.xpath("//div[@id='content']//div[@class='row']/div['" + productName + "']/div[1]/div[3]//button//span[text()='Add to Cart']");
+    }
+
+    public void addToCartByIndex(int productIndex) {
+        if (productIndex > 4 || productIndex < 1) {
+            throw new RuntimeException("Product Index Out Of Range");
+        }
+
+        WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex))).click();
+    }
+
+    public void addToCartByProductName(String productName) {
+        try {
+            this.driver.findElement(locateProductByName(productName)).click();
+            WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName))).click();
+        } catch (Exception e) {
+            throw new RuntimeException("Product With Name " + productName + " Not Found");
+        }
+
     }
 
 
