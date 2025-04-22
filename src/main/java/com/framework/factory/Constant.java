@@ -21,4 +21,10 @@ public class Constant {
     public static final String INVALID_USER_WARNING="Warning: No match for E-Mail Address and/or Password.";
 
     public static final String ACCOUNT_PAGE_SUCCESS_TITLE="Your Account Has Been Created!";
+
+    public static final String CURRENCY_DOLLAR="$";
+    public static final String CURRENCY_POUND="£";
+    public static final String CURRENCY_EURO="€";
+
+
 }

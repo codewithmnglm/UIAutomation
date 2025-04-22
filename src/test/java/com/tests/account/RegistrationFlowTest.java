@@ -1,6 +1,7 @@
 package com.tests.account;
 
 import com.base.BaseTest;
+import com.framework.exceptions.PageLoadException;
 import com.framework.factory.Constant;
 import com.framework.pages.Account;
 import com.framework.pages.HomePage;
@@ -9,18 +10,19 @@ import com.framework.pages.Register;
 import com.framework.reporting.TestLog;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
+import lombok.SneakyThrows;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static io.qameta.allure.SeverityLevel.BLOCKER;
 
-public class RegistrationFlow extends BaseTest {
+public class RegistrationFlowTest extends BaseTest {
     HomePage homePage;
 
     @Test
     @Severity(BLOCKER)
     @Description("Verify If New Registrations are getting created")
-    public void registerUser() {
+    public void registerUser() throws PageLoadException {
         Register registerPage = goToRegisterUserPage();
         //Pick Data from Excel or JSON
         Account.Success myAccountSuccess = registerPage.registerNewUser("Ramesh6", "Kumar6", "ramesh0076@gmail.com",
@@ -39,6 +41,7 @@ public class RegistrationFlow extends BaseTest {
         TestLog.stepInfo("✅ User is Successfully Logged Out and on Home Page");
     }
 
+    @SneakyThrows
     @Test
     @Severity(BLOCKER)
     @Description("Create Account For Exiting User")
@@ -56,6 +59,7 @@ public class RegistrationFlow extends BaseTest {
 
     }
 
+    @SneakyThrows
     @Test
     @Severity(BLOCKER)
     @Description("Create Account With Already Registered User")
