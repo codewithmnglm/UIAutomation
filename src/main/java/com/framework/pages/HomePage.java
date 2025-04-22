@@ -2,6 +2,7 @@ package com.framework.pages;
 
 import com.framework.factory.Constant;
 import com.framework.base.BasePage;
+import com.framework.reporting.TestLog;
 import com.framework.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -19,14 +20,6 @@ public class HomePage extends BasePage {
         PageFactory.initElements(driver, this);
 
     }
-
-    By addToCartByIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
-    By addToWishListByIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
-    By compareProductIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Compare this Product']");
-
-    By addToCartByName = By.xpath("//h4/a[contains(text(),'" + product + "')]/ancestor::div[@class='product-thumb transition']//button//span[contains(text(), 'Add to Cart')]");
-    By addToWishListByName = By.xpath("//h4/a[contains(text(),'" + product + "')]/ancestor::div[@class='product-thumb transition']//button[@data-original-title='Add to Wish List']");
-
 
     @FindBy(xpath = "//img[@title='naveenopencart']")
     private WebElement pageLogo;
@@ -73,7 +66,7 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='My Account']")
     private WebElement accountHeader;
 
-    @FindBy(xpath = "//span[text()='Wish List (0)']")
+    @FindBy(xpath = "//span[contains(text(),'Wish List')]")
     private WebElement wishList;
 
     @FindBy(xpath = "//span[text()='Shopping Cart']")
@@ -169,6 +162,12 @@ public class HomePage extends BasePage {
         return WaitUtils.waitForClickable(driver, cartItems).getText();
     }
 
+    public String returnWishListItem() {
+
+        return WaitUtils.waitForClickable(driver, wishList).getText();
+
+    }
+
     public boolean isPageLogoDisplayed() {
         return WaitUtils.waitForVisibility(driver, pageLogo).isDisplayed();
     }
@@ -243,11 +242,13 @@ public class HomePage extends BasePage {
             throw new RuntimeException("Product Index Out Of Range");
         }
         WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToCart"))).click();
+        TestLog.stepInfo("Product at index " + productIndex + " is Successfully Added to Cart");
     }
 
     public void addToCartByProductName(String productName) {
         try {
             WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToCart"))).click();
+            TestLog.stepInfo(productName + " is Successfully Added to Cart");
         } catch (Exception e) {
             throw new RuntimeException("Product With Name " + productName + " Not Found");
         }
@@ -259,11 +260,13 @@ public class HomePage extends BasePage {
             throw new RuntimeException("Product Index Out Of Range");
         }
         WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToWishList"))).click();
+        TestLog.stepInfo("Product at index " + productIndex + " is Successfully Added to Wish List");
     }
 
     public void addToWishListByProductName(String productName) {
         try {
             WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToWishList"))).click();
+            TestLog.stepInfo(productName + " is Successfully Added to Wish List");
         } catch (Exception e) {
             throw new RuntimeException("Product With Name " + productName + " Not Found");
         }

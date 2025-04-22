@@ -3,7 +3,6 @@ package com.tests.wishlist;
 import com.base.BaseTest;
 import com.framework.base.Product;
 import com.framework.exceptions.PageLoadException;
-import com.framework.factory.Constant;
 import com.framework.pages.HomePage;
 import com.framework.reporting.TestLog;
 import io.qameta.allure.Description;
@@ -17,25 +16,63 @@ public class AddToWishListTest extends BaseTest {
 
     @Test
     @Severity(BLOCKER)
-    @Description("Add The Product To WishList")
-    public void addProductToCartByIndex() throws PageLoadException {
+    @Description("Add The Product To WishList By Index")
+    public void addProductToWishListByIndex() throws PageLoadException {
         HomePage homePage = goToHomePage();
         //Using Builder Pattern to Pass Product Details
         Product product = Product.builder().productName("MacBook").
                 productId("1").
                 productPrice(602.00).
                 build();
-        homePage.addToCartByIndex(Integer.parseInt(product.getProductId()));
-        String cartItemsDetails = homePage.returnCartItem();
-        int noOfProductsInCart = Integer.parseInt(cartItemsDetails.split(" ")[0]);
-        Assert.assertEquals(noOfProductsInCart, 1, "Number of products in Cart is wrong");
-        TestLog.stepInfo("No of Products in Cart is " + noOfProductsInCart);
-        String priceOfItemsInCart = homePage.returnCartItem().split("-")[1].replace(Constant.CURRENCY_DOLLAR,"");
-        Assert.assertEquals(Double.parseDouble(priceOfItemsInCart), product.getProductPrice(), "Total price of items in Cart is wrong");
-        TestLog.stepInfo("Price Of Products in Cart is " + priceOfItemsInCart);
+        homePage.addToWishListByIndex(Integer.parseInt(product.getProductId()));
+        String wishListItemDetails = homePage.returnWishListItem();
+        int noOfProductsInWishList = Integer.parseInt(wishListItemDetails.substring(wishListItemDetails.indexOf('(') + 1, wishListItemDetails.indexOf(')')));
+        Assert.assertEquals(noOfProductsInWishList, 1, "Number of products in Cart is wrong");
+        TestLog.stepInfo("No of Products in WishList is " + noOfProductsInWishList);
+
 
 
     }
+
+    @Test
+    @Severity(BLOCKER)
+    @Description("Add The Product To WishList By Name")
+    public void addProductToWishListByName() throws PageLoadException {
+        HomePage homePage = goToHomePage();
+        //Using Builder Pattern to Pass Product Details
+        Product product = Product.builder().productName("iPhone").
+                productId("2").
+                productPrice(602.00).
+                build();
+        homePage.addToWishListByProductName(product.getProductName());
+        String wishListItemDetails = homePage.returnWishListItem();
+        int noOfProductsInWishList = Integer.parseInt(wishListItemDetails.substring(wishListItemDetails.indexOf('(') + 1, wishListItemDetails.indexOf(')')));
+        Assert.assertEquals(noOfProductsInWishList, 1, "Number of products in Cart is wrong");
+        TestLog.stepInfo("No of Products in the WishList is " + noOfProductsInWishList);
+
+    }
+
+    @Test
+    @Severity(BLOCKER)
+    @Description("Add The Multiple Products To WishList ")
+    public void addMultipleProductToWishList() throws PageLoadException {
+        HomePage homePage = goToHomePage();
+        //Using Builder Pattern to Pass Product Details
+        Product product = Product.builder().productName("iPhone").
+                productId("2").
+                productPrice(602.00).
+                build();
+        homePage.addToWishListByProductName(product.getProductName());
+        homePage.addToWishListByIndex(1);
+        String wishListItemDetails = homePage.returnWishListItem();
+        int noOfProductsInWishList = Integer.parseInt(wishListItemDetails.substring(wishListItemDetails.indexOf('(') + 1, wishListItemDetails.indexOf(')')));
+        Assert.assertEquals(noOfProductsInWishList, 2, "Number of products in Cart is wrong");
+        TestLog.stepInfo("No of Products in the WishList is " + noOfProductsInWishList);
+
+    }
+
+
+
 
 
 
