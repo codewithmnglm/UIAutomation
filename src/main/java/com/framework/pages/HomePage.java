@@ -20,9 +20,12 @@ public class HomePage extends BasePage {
 
     }
 
-    By addToCart = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
-    By addToWishList = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
-    By compareProduct = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title=\"Compare this Product\"]");
+    By addToCartByIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
+    By addToWishListByIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
+    By compareProductIndex = By.xpath("//div[@id='content']//div[@class='row']/div[" + product + "]/div[1]/div[3]//button[@data-original-title='Compare this Product']");
+
+    By addToCartByName = By.xpath("//h4/a[contains(text(),'" + product + "')]/ancestor::div[@class='product-thumb transition']//button//span[contains(text(), 'Add to Cart')]");
+    By addToWishListByName = By.xpath("//h4/a[contains(text(),'" + product + "')]/ancestor::div[@class='product-thumb transition']//button[@data-original-title='Add to Wish List']");
 
 
     @FindBy(xpath = "//img[@title='naveenopencart']")
@@ -100,8 +103,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[contains(@title,'Logout')]")
     private WebElement logout;
 
-    @FindBy(xpath="//span[@id='cart-total']")
+    @FindBy(xpath = "//button[contains(@class, 'btn') and .//span[@id='cart-total']]")
     private WebElement cartItems;
+
+    @FindBy(xpath = "//p[text()='Your shopping cart is empty!']")
+    private WebElement emptyCartMsg;
+
 
     public void goTo() {
         this.driver.get(Constant.BASE_URL);
@@ -158,6 +165,10 @@ public class HomePage extends BasePage {
         return new ShoppingCart(driver);
     }
 
+    public String returnCartItem() {
+        return WaitUtils.waitForClickable(driver, cartItems).getText();
+    }
+
     public boolean isPageLogoDisplayed() {
         return WaitUtils.waitForVisibility(driver, pageLogo).isDisplayed();
     }
@@ -208,26 +219,51 @@ public class HomePage extends BasePage {
         return listOfFeaturedProducts;
     }
 
-    private By locateProductByIndex(int productIndex) {
-        return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
+    private By locateProductByIndex(int productIndex, String productFeature) {
+        if (productFeature.equalsIgnoreCase("AddToCart")) {
+            return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
+        } else if (productFeature.equalsIgnoreCase("AddToWishList")) {
+            return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
+        } else
+            return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button[@data-original-title='Compare this Product']");
+
     }
 
-    private By locateProductByName(String productName) {
-        return By.xpath("//div[@id='content']//div[@class='row']/div['" + productName + "']/div[1]/div[3]//button//span[text()='Add to Cart']");
+    private By locateProductByName(String productName, String productFeature) {
+        if (productFeature.equalsIgnoreCase("AddToCart")) {
+            return By.xpath("//h4/a[contains(text(),'" + productName + "')]/ancestor::div[@class='product-thumb transition']//button//span[contains(text(), 'Add to Cart')]");
+        } else if (productFeature.equalsIgnoreCase("AddToWishList")) {
+            return By.xpath("//h4/a[contains(text(),'" + productName + "')]/ancestor::div[@class='product-thumb transition']//button[@data-original-title='Add to Wish List']");
+        }
+        return By.xpath("");
     }
 
     public void addToCartByIndex(int productIndex) {
         if (productIndex > 4 || productIndex < 1) {
             throw new RuntimeException("Product Index Out Of Range");
         }
-
-        WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex))).click();
+        WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToCart"))).click();
     }
 
     public void addToCartByProductName(String productName) {
         try {
-            this.driver.findElement(locateProductByName(productName)).click();
-            WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName))).click();
+            WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToCart"))).click();
+        } catch (Exception e) {
+            throw new RuntimeException("Product With Name " + productName + " Not Found");
+        }
+
+    }
+
+    public void addToWishListByIndex(int productIndex) {
+        if (productIndex > 4 || productIndex < 1) {
+            throw new RuntimeException("Product Index Out Of Range");
+        }
+        WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToWishList"))).click();
+    }
+
+    public void addToWishListByProductName(String productName) {
+        try {
+            WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToWishList"))).click();
         } catch (Exception e) {
             throw new RuntimeException("Product With Name " + productName + " Not Found");
         }

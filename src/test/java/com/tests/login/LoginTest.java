@@ -13,7 +13,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import static io.qameta.allure.SeverityLevel.BLOCKER;
 
-public class LoginUser extends BaseTest {
+public class LoginTest extends BaseTest {
 
     private Login loginPage;
     private Account accountPage;

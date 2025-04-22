@@ -31,7 +31,7 @@ public class BaseTest {
     @AfterTest
     public void quitDriver() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-       // this.driver.quit();
+        this.driver.quit();
         System.out.println("All Drivers Closed");
 
     }
@@ -54,11 +54,8 @@ public class BaseTest {
         }
     }
 
-    public Register goToRegisterUserPage() {
-        HomePage homePage = new HomePage(driver);
-        homePage.goTo();
-        assertPageTitle(homePage.getTitle(driver), Constant.HOME_PAGE_TITLE, "Home Page");
-        TestLog.stepInfo("Home Page Opened");
+    public Register goToRegisterUserPage() throws PageLoadException {
+        HomePage homePage = goToHomePage();
         Register registerPage = homePage.navigateToRegistrationPage();
         assertPageTitle(registerPage.getTitle(driver), Constant.REGISTER_PAGE_TITLE, "Register Page");
         TestLog.stepInfo("Registration Page Opened");
@@ -87,5 +84,12 @@ public class BaseTest {
         );
 
         return map.get(productName);
+    }
+
+    public HomePage goToHomePage() throws PageLoadException {
+        HomePage homePage = launchHomePage();
+        assertPageTitle(homePage.getTitle(driver), Constant.HOME_PAGE_TITLE, "Home Page");
+        TestLog.stepInfo("User Is Logged In Successfully And on HomePage");
+        return homePage;
     }
 }

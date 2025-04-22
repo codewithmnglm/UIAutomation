@@ -12,7 +12,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.testng.annotations.Test;
 
-public class Logout extends BaseTest {
+public class LogoutTest extends BaseTest {
 
     private Login loginPage;
     private Account accountPage;
