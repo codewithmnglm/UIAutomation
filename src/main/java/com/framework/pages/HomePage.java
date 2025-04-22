@@ -239,36 +239,36 @@ public class HomePage extends BasePage {
 
     public void addToCartByIndex(int productIndex) {
         if (productIndex > 4 || productIndex < 1) {
-            throw new RuntimeException("Product Index Out Of Range");
+            throw new RuntimeException("Product Index Out Of Range ❌");
         }
         WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToCart"))).click();
-        TestLog.stepInfo("Product at index " + productIndex + " is Successfully Added to Cart");
+        TestLog.stepInfo(" ✅ Product at index " + productIndex + " is Successfully Added to Cart");
     }
 
     public void addToCartByProductName(String productName) {
         try {
             WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToCart"))).click();
-            TestLog.stepInfo(productName + " is Successfully Added to Cart");
+            TestLog.stepInfo(productName + " is Successfully Added to Cart ✅");
         } catch (Exception e) {
-            throw new RuntimeException("Product With Name " + productName + " Not Found");
+            throw new RuntimeException("Product With Name " + productName + " Not Found ❌");
         }
 
     }
 
     public void addToWishListByIndex(int productIndex) {
         if (productIndex > 4 || productIndex < 1) {
-            throw new RuntimeException("Product Index Out Of Range");
+            throw new RuntimeException("Product Index Out Of Range ❌");
         }
         WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByIndex(productIndex, "AddToWishList"))).click();
-        TestLog.stepInfo("Product at index " + productIndex + " is Successfully Added to Wish List");
+        TestLog.stepInfo("✅Product at index " + productIndex + " is Successfully Added to Wish List");
     }
 
     public void addToWishListByProductName(String productName) {
         try {
             WaitUtils.waitForClickable(driver, this.driver.findElement(locateProductByName(productName, "AddToWishList"))).click();
-            TestLog.stepInfo(productName + " is Successfully Added to Wish List");
+            TestLog.stepInfo(productName + " is Successfully Added to Wish List ✅");
         } catch (Exception e) {
-            throw new RuntimeException("Product With Name " + productName + " Not Found");
+            throw new RuntimeException("Product With Name " + productName + " Not Found ❌");
         }
 
     }
