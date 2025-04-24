@@ -37,8 +37,18 @@ public class ShoppingCart extends BasePage {
     @FindBy(xpath = "//div[@class='table-responsive']/table/tbody/tr")
     List<WebElement> shoppingCartItems;
 
+    @FindBy(xpath = "//td[@class='text-right' and strong[text()='Total:']]/ancestor::tr/td[2]")
+    private WebElement finalPriceOfCart;
+
     @FindBy(xpath = "//div[@class='alert alert-success alert-dismissible' and contains(text(), 'You have modified your shopping cart')]")
-    private WebElement modifyShoppingCartAlert;
+    private WebElement modifyShoppingCartMsg;
+
+    public String finalPriceOfCart() {
+
+        String xpath="//td[@class='text-right' and strong[text()='Total:']]/ancestor::tr/td[2]";
+        WebElement finalPriceOfCart = this.driver.findElement(By.xpath(xpath));
+        return finalPriceOfCart.getText();
+    }
 
     public String getProductName(int productIndex) {
 
@@ -51,6 +61,11 @@ public class ShoppingCart extends BasePage {
     public boolean emptyShoppingCartMessage() {
 
         return WaitUtils.waitForVisibility(this.driver, emptyCartMessage).isDisplayed();
+    }
+
+    public boolean modifyShoppingCartMessage() {
+
+        return WaitUtils.waitForVisibility(this.driver, modifyShoppingCartMsg).isDisplayed();
     }
 
     public String getProductModel(int productIndex) {
@@ -74,6 +89,7 @@ public class ShoppingCart extends BasePage {
         String xpath = "//div[@class='table-responsive']/table/tbody/tr[" + productIndex + "]//td[4]//input";
         WebElement webElement = this.driver.findElement(By.xpath(xpath));
         type(WaitUtils.waitForClickable(this.driver, webElement), quantity);
+        TestLog.stepInfo("Quantity of Product At Index " + productIndex + " is updated");
 
     }
 
