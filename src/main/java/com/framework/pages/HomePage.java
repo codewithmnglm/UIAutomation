@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import java.util.List;
 
 public class HomePage extends BasePage {
@@ -63,7 +62,7 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='123456789']")
     private WebElement mobileContact;
 
-    @FindBy(xpath = "//span[text()='My Account']")
+    @FindBy(xpath = "//a[@title='My Account']")
     private WebElement accountHeader;
 
     @FindBy(xpath = "//a[@id='wishlist-total']")
@@ -71,19 +70,19 @@ public class HomePage extends BasePage {
 
     By wishListByLocators = By.id("wishlist-total");
 
-    @FindBy(xpath = "//span[text()='Shopping Cart']")
+    @FindBy(xpath = "//a[@title='Shopping Cart']")
     private WebElement shoppingCart;
 
-    @FindBy(xpath = "//span[text()='Checkout']")
+    @FindBy(xpath = "//a[@title='Shopping Cart']")
     private WebElement checkOut;
 
-    @FindBy(xpath = "//a[text()='Register']")
+    @FindBy(xpath = "//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/register']")
     private WebElement registerLink;
 
-    @FindBy(xpath = "//a[text()='Login']")
+    @FindBy(xpath = "//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/login']")
     private WebElement login;
 
-    @FindBy(xpath = "//span[text()='My Account']")
+    @FindBy(xpath = "//a[@title='My Account']")
     private WebElement myAccount;
 
     @FindBy(xpath = "//a[text()='Order History']")
@@ -150,7 +149,9 @@ public class HomePage extends BasePage {
 
     public Account.WishList navigateToWishListPage() {
 
-        click(By.id("wishlist-total"), 10, 1);
+       // click(By.id("wishlist-total"), 10, 1);
+        //Thread.sleep(1000);
+        click(wishList);
         return new Account.WishList(this.driver);
     }
 

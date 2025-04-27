@@ -292,6 +292,9 @@ public class Account extends BasePage {
         @FindBy(xpath = "//div[contains(@class,'alert alert-success alert-dismissible')and contains(text(),' Success: You have modified your wish list!')]")
         WebElement wishListModification;
 
+        @FindBy(xpath = "//a[@title='Shopping Cart']")
+        WebElement shoppingCartBtn;
+
         public boolean verifyEmptyWishList() {
 
             return WaitUtils.waitForVisibility(this.driver, emptyWishList).isDisplayed();
@@ -318,6 +321,7 @@ public class Account extends BasePage {
         public ShoppingCart addToShoppingCart(int productIndex) {
             String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[6]//button[contains(@data-original-title,'Add to Cart')]";
             click(this.driver.findElement(By.xpath(xpath)));
+            TestLog.stepInfo("Adding product to shopping cart at Index: " + productIndex);
             return new ShoppingCart(driver);
 
         }
@@ -347,6 +351,12 @@ public class Account extends BasePage {
 
             WaitUtils.waitForClickable(driver, continueBtn).click();
             return new Account(driver);
+        }
+
+        public ShoppingCart navigateToCartPage() {
+
+            WaitUtils.waitForClickable(driver, shoppingCartBtn).click();
+            return new ShoppingCart(driver);
         }
 
 

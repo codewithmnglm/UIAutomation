@@ -3,6 +3,8 @@ package com.tests.wishlist;
 import com.base.BaseTest;
 import com.framework.base.Product;
 import com.framework.exceptions.PageLoadException;
+import com.framework.factory.Constant;
+import com.framework.pages.Account;
 import com.framework.pages.HomePage;
 import com.framework.reporting.TestLog;
 import io.qameta.allure.Description;
@@ -69,6 +71,29 @@ public class AddToWishListTest extends BaseTest {
         Assert.assertEquals(noOfProductsInWishList, 2, "Number of products in Cart is wrong");
         TestLog.stepInfo("No of Products in the WishList is " + noOfProductsInWishList);
 
+    }
+
+    @Test
+    @Severity(BLOCKER)
+    @Description("Add Same Product To WishList Multiple Times")
+    public void addProductMultipleTimes() throws PageLoadException {
+        HomePage homePage = launchHomePage();
+        homePage = homePage.navigateToLoginPage().loginAsExistingUser(Constant.EMAIL_ADDRESS, Constant.PWD).navigateToHomePage();
+        //Using Builder Pattern to Pass Product Details
+        Product product = Product.builder().productName("iPhone").
+                productId("2").
+                productPrice(602.00).
+                build();
+        homePage.addToWishListByProductName(product.getProductName());
+        homePage.addToWishListByProductName(product.getProductName());
+        Account.WishList wishListPage=homePage.navigateToWishListPage();
+        Assert.assertEquals(wishListPage.getWishList().size(), 1, "Number of Products in WishList is Wrong");
+        TestLog.stepInfo("Total No of Products in WishList is " + wishListPage.getWishList().size());
+        Account.WishList wishlistPage = homePage.navigateToWishListPage();
+        assertPageTitle(wishlistPage.getTitle(driver), Constant.WISHLIST_PAGE_TITLE, "Wishlist Page");
+        TestLog.stepInfo("User is navigated to Wishlist Page");
+        TestLog.stepInfo("No of Products in WishList is " + wishlistPage.getWishList().size());
+        Assert.assertEquals(wishlistPage.getWishList().size(),1, "Number of Products in WishList is Wrong");
     }
 
 
