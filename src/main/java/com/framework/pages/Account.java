@@ -3,10 +3,15 @@ package com.framework.pages;
 import com.framework.base.BasePage;
 import com.framework.reporting.TestLog;
 import com.framework.utils.WaitUtils;
+import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
+import java.util.Map;
 
 public class Account extends BasePage {
 
@@ -15,6 +20,9 @@ public class Account extends BasePage {
         PageFactory.initElements(driver, this);
 
     }
+
+    @FindBy(xpath = "//li//a[contains(@href,'https://naveenautomationlabs.com/opencart/index.php?route=common/home')]")
+    private WebElement homePageIcon;
 
     @FindBy(xpath = "//a[text()='Edit your account information']")
     private WebElement editAccount;
@@ -48,6 +56,18 @@ public class Account extends BasePage {
 
     @FindBy(xpath = "//a[text()='Logout']")
     private WebElement logout;
+
+    public Account.WishList navigateToWishListPage() {
+
+        click(modifyWishList);
+        return new WishList(this.driver);
+    }
+
+    public HomePage navigateToHomePage() {
+        click(homePageIcon);
+        return new HomePage(this.driver);
+    }
+
 
     public Logout logout() {
         click(myAccount);
@@ -180,12 +200,12 @@ public class Account extends BasePage {
         @FindBy(xpath = "//p[text()='Your shopping cart has been saved, the items inside it will be restored whenever you log back into your account.']")
         private WebElement logoutMsg;
 
-        @FindBy(xpath="//a[text()='Continue']")
+        @FindBy(xpath = "//a[text()='Continue']")
         private WebElement continueBtn;
 
-        public HomePage navigateToHomePage(){
+        public HomePage navigateToHomePage() {
             click(continueBtn);
-           return new HomePage(driver);
+            return new HomePage(driver);
         }
 
         public boolean isLogOffMsgDisplayed() {
@@ -205,33 +225,31 @@ public class Account extends BasePage {
         }
 
 
-
-
     }
 
-    public static class Success extends Account{
+    public static class Success extends Account {
 
-        public Success(WebDriver driver){
+        public Success(WebDriver driver) {
             super(driver);
-            PageFactory.initElements(driver,this);
+            PageFactory.initElements(driver, this);
 
         }
 
-        @FindBy(xpath="//h1[contains(text(), 'Your Account Has Been Created!')]")
+        @FindBy(xpath = "//h1[contains(text(), 'Your Account Has Been Created!')]")
         WebElement accountCreation;
 
-        @FindBy(xpath="//p[contains(text(), 'Congratulations! Your new account has been successfully created!')]")
+        @FindBy(xpath = "//p[contains(text(), 'Congratulations! Your new account has been successfully created!')]")
         WebElement congratulationMsg;
 
-        @FindBy(xpath="//p[contains(text(), 'If you have ANY questions about the operation of this online shop, please e-mail the store owner.')]")
+        @FindBy(xpath = "//p[contains(text(), 'If you have ANY questions about the operation of this online shop, please e-mail the store owner.')]")
         WebElement queryMsg;
 
-        @FindBy(xpath="//a[contains(@href, 'account/account') and contains(text(), 'Continue')]")
+        @FindBy(xpath = "//a[contains(@href, 'account/account') and contains(text(), 'Continue')]")
         WebElement continueBtn;
 
-        public Account navigateToAccountPage(){
+        public Account navigateToAccountPage() {
 
-            WaitUtils.waitForClickable(driver,continueBtn).click();
+            WaitUtils.waitForClickable(driver, continueBtn).click();
             return new Account(driver);
         }
 
@@ -241,6 +259,7 @@ public class Account extends BasePage {
             verifyElementVisibleAndEnabled(queryMsg, "Query Message");
             verifyElementVisibleAndEnabled(continueBtn, "Continue Button");
         }
+
         private void verifyElementVisibleAndEnabled(WebElement element, String elementName) {
             if (element.isDisplayed() || element.isEnabled()) {
                 TestLog.stepInfo(elementName + " is visible or enabled.");
@@ -250,7 +269,85 @@ public class Account extends BasePage {
         }
 
 
+    }
 
+    public static class WishList extends Account {
+
+        public WishList(WebDriver driver) {
+            super(driver);
+            PageFactory.initElements(driver, this);
+
+        }
+
+        @FindBy(xpath = "//p[contains(text(), 'Your wish list is empty.')]")
+        WebElement emptyWishList;
+
+        @FindBy(xpath = "//a[contains(@href, 'account/account') and contains(text(), 'Continue')]")
+        WebElement continueBtn;
+
+        @Getter
+        @FindBy(xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr")
+        List<WebElement> wishList;
+
+        @FindBy(xpath = "//div[contains(@class,'alert alert-success alert-dismissible')and contains(text(),' Success: You have modified your wish list!')]")
+        WebElement wishListModification;
+
+        public boolean verifyEmptyWishList() {
+
+            return WaitUtils.waitForVisibility(this.driver, emptyWishList).isDisplayed();
+        }
+
+        public String getProductName(int productIndex) {
+
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[2]/a";
+            return WaitUtils.waitForVisibility(this.driver, driver.findElement(By.xpath(xpath))).getText();
+        }
+
+        public String getProductModel(int productIndex) {
+
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[3]";
+            return WaitUtils.waitForVisibility(this.driver, driver.findElement(By.xpath(xpath))).getText();
+        }
+
+        public String getProductUnitPrice(int productIndex) {
+
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[5]/div[contains(@class,'price')]";
+            return WaitUtils.waitForVisibility(this.driver, driver.findElement(By.xpath(xpath))).getText();
+        }
+
+        public ShoppingCart addToShoppingCart(int productIndex) {
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[6]//button[contains(@data-original-title,'Add to Cart')]";
+            click(this.driver.findElement(By.xpath(xpath)));
+            return new ShoppingCart(driver);
+
+        }
+
+        public void removeFromWishList(int productIndex) {
+
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[6]//a[contains(@data-original-title,'Remove')]";
+            click(this.driver.findElement(By.xpath(xpath)));
+            TestLog.stepInfo("Product at Index " + productIndex + " Removed From WishList");
+
+        }
+
+        public boolean isAvailable(int productIndex) {
+
+            String xpath = "//table[contains(@class,'table table-bordered table-hover')]/tbody/tr[" + productIndex + "]//td[4]";
+            String productAvailability = WaitUtils.waitForVisibility(this.driver, driver.findElement(By.xpath(xpath))).getText();
+
+            Map<String, Boolean> map = Map.of(
+                    "Out Of Stock", false,
+                    "In Stock", true
+            );
+            return map.get(productAvailability);
+        }
+
+
+        public Account navigateToAccountPage() {
+
+            WaitUtils.waitForClickable(driver, continueBtn).click();
+            return new Account(driver);
+        }
 
 
     }

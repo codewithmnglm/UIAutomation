@@ -66,8 +66,10 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//span[text()='My Account']")
     private WebElement accountHeader;
 
-    @FindBy(xpath = "//span[contains(text(),'Wish List')]")
+    @FindBy(xpath = "//a[@id='wishlist-total']")
     private WebElement wishList;
+
+    By wishListByLocators = By.id("wishlist-total");
 
     @FindBy(xpath = "//span[text()='Shopping Cart']")
     private WebElement shoppingCart;
@@ -144,6 +146,12 @@ public class HomePage extends BasePage {
         click(registerLink);
         return new Register(driver);
 
+    }
+
+    public Account.WishList navigateToWishListPage() {
+
+        click(By.id("wishlist-total"), 10, 1);
+        return new Account.WishList(this.driver);
     }
 
     public Login navigateToLoginPage() {
