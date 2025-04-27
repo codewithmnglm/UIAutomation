@@ -42,7 +42,7 @@ public class RemoveFromWishListTest extends BaseTest {
         TestLog.stepInfo("Product Model is " + wishlistPage.getProductModel(1));
         TestLog.stepInfo("Product Unit Price is " + wishlistPage.getProductUnitPrice(1));
         TestLog.stepInfo("No of Products in WishList is " + wishlistPage.getWishList().size());
-        TestLog.stepInfo("Product is " + wishlistPage.isAvailable(1));
+        TestLog.stepInfo("Product is Available " + wishlistPage.isAvailable(1));
         wishlistPage.removeFromWishList(1);
         Assert.assertTrue(wishlistPage.verifyEmptyWishList(), "Wishlist is not empty");
         TestLog.stepInfo("Wish list is empty.....");
@@ -80,7 +80,7 @@ public class RemoveFromWishListTest extends BaseTest {
         assertPageTitle(wishlistPage.getTitle(driver), Constant.WISHLIST_PAGE_TITLE, "Wishlist Page");
         TestLog.stepInfo("User is navigated to Wishlist Page");
         TestLog.stepInfo("No of Products in WishList is " + wishlistPage.getWishList().size());
-        TestLog.stepInfo("Product At Index 1 is " + wishlistPage.isAvailable(1));
+        TestLog.stepInfo("Product At Index 1 is Available" + wishlistPage.isAvailable(1));
         wishlistPage.removeFromWishList(1);
         TestLog.stepInfo("No of Products in WishList is " + wishlistPage.getWishList().size());
         wishlistPage.removeFromWishList(1);

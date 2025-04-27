@@ -16,12 +16,9 @@ public class BasePage {
     }
 
     public void click(WebElement element) {
-        String attribute = element.getAttribute("class");
-        if(attribute.contains("hidden")){
-            ((JavascriptExecutor)driver).executeScript("arguments[0].style.display='block';", element);
-            element.click();
-        }
-        else WaitUtils.waitForClickable(driver, element).click();
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='block';", element);
+        WaitUtils.waitForClickable(driver, element).click();
 
     }
 
