@@ -22,6 +22,7 @@ public class Constant {
 
     public static final String ACCOUNT_PAGE_SUCCESS_TITLE="Your Account Has Been Created!";
     public static final String SHOPPING_CART_PAGE_TITLE=   "Shopping Cart";
+    public static final String WISHLIST_PAGE_TITLE="My Wish List";
 
     public static final String CURRENCY_DOLLAR="$";
     public static final String CURRENCY_POUND="£";
