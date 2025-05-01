@@ -26,6 +26,7 @@ public class DriverFactory {
                 chromeOptions.addArguments("--disable-extensions");  // Disable extensions
                 chromeOptions.addArguments("--no-sandbox");         // Bypass OS security model
                 chromeOptions.addArguments("--disable-dev-shm-usage");
+                //chromeOptions.addArguments("--headless");
 
                 ChromeDriverService service = new ChromeDriverService.Builder()
                         .withLogOutput(System.out) // Send logs to console again

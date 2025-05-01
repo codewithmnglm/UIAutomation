@@ -88,7 +88,7 @@ public class ShoppingCart extends BasePage {
 
         String xpath = "//div[@class='table-responsive']/table/tbody/tr[" + productIndex + "]//td[4]//input";
         WebElement webElement = this.driver.findElement(By.xpath(xpath));
-        type(WaitUtils.waitForClickable(this.driver, webElement), quantity);
+        enterText(WaitUtils.waitForClickable(this.driver, webElement), quantity);
         TestLog.stepInfo("Quantity of Product At Index " + productIndex + " is updated");
 
     }

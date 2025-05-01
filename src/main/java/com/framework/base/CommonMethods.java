@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Currency;
+import java.util.List;
 import java.util.Map;
 
 public class CommonMethods {
@@ -48,5 +49,15 @@ public class CommonMethods {
         }
         return "";
 
+    }
+    //return sorted ascending or descending list
+    public static <T extends Comparable<T>> boolean isSorted(List<T> list, boolean ascending) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            int cmp = list.get(i).compareTo(list.get(i + 1));
+            if ((ascending && cmp > 0) || (!ascending && cmp < 0)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

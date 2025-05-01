@@ -57,10 +57,23 @@ public class Account extends BasePage {
     @FindBy(xpath = "//a[text()='Logout']")
     private WebElement logout;
 
+    @FindBy(name = "search")
+    private WebElement searchBar;
+
+    @FindBy(xpath = "//i[@class='fa fa-search']")
+    private WebElement searchIcon;
+
     public Account.WishList navigateToWishListPage() {
 
         click(modifyWishList);
         return new WishList(this.driver);
+    }
+
+    public Search searchProduct(String productName) {
+
+        enterText(searchBar, productName);
+        searchIcon.click();
+        return new Search(driver);
     }
 
     public HomePage navigateToHomePage() {
@@ -123,8 +136,8 @@ public class Account extends BasePage {
 
         public void updatePwd(String currentPwd, String newPwd) {
 
-            type(enterPwd, currentPwd);
-            type(cnfirmPwd, newPwd);
+            enterText(enterPwd, currentPwd);
+            enterText(cnfirmPwd, newPwd);
             click(continueBtn);
 
         }
@@ -166,10 +179,10 @@ public class Account extends BasePage {
 
         public void updateAccount(String firstNameValue, String lastNameValue, String emailValue, String phoneValue) {
 
-            type(firstName, firstNameValue);
-            type(lastName, lastNameValue);
-            type(email, emailValue);
-            type(telephone, phoneValue);
+            enterText(firstName, firstNameValue);
+            enterText(lastName, lastNameValue);
+            enterText(email, emailValue);
+            enterText(telephone, phoneValue);
             click(continueBtn);
         }
 
