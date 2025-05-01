@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
 import java.util.List;
 
 public class HomePage extends BasePage {
@@ -149,8 +150,6 @@ public class HomePage extends BasePage {
 
     public Account.WishList navigateToWishListPage() {
 
-       // click(By.id("wishlist-total"), 10, 1);
-        //Thread.sleep(1000);
         click(wishList);
         return new Account.WishList(this.driver);
     }
@@ -221,12 +220,6 @@ public class HomePage extends BasePage {
 
     }
 
-
-    public List<WebElement> getListOfFeaturedProducts() {
-
-        return listOfFeaturedProducts;
-    }
-
     private By locateProductByIndex(int productIndex, String productFeature) {
         if (productFeature.equalsIgnoreCase("AddToCart")) {
             return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
@@ -280,6 +273,14 @@ public class HomePage extends BasePage {
             throw new RuntimeException("Product With Name " + productName + " Not Found ❌");
         }
 
+    }
+
+    public Search searchProduct(String productName) {
+
+        enterText(searchBar, productName);
+        searchIcon.click();
+        TestLog.stepInfo("Search Page Title Is ::::" + this.driver.getTitle());
+        return new Search(driver);
     }
 
 

@@ -34,8 +34,8 @@ public class Login extends BasePage {
 
     public Account loginAsExistingUser(String userName, String pwd) {
 
-        type(email,userName);
-        type(password,pwd);
+        enterText(email,userName);
+        enterText(password,pwd);
         click(loginButton);
         return new Account(driver);
     }

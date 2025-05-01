@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class BasePage {
 
@@ -31,7 +32,7 @@ public class BasePage {
     }
 
 
-    public void type(WebElement element, String text) {
+    public void enterText(WebElement element, String text) {
         clear(element);
         element.sendKeys(text);
 
@@ -39,6 +40,14 @@ public class BasePage {
 
     public String getTitle(WebDriver driver) {
         return driver.getTitle();
+    }
+
+    public void searchFromDropdownByText(WebElement element,String text){
+
+        Select dropDown= new Select(element);
+        dropDown. selectByVisibleText(text);
+
+
     }
 
 

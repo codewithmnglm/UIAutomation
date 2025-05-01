@@ -92,4 +92,18 @@ public class BaseTest {
         TestLog.stepInfo("User Is Logged In Successfully And on HomePage");
         return homePage;
     }
+
+    public String priceExtractor(String priceText,String regex){
+
+
+        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(regex).matcher(priceText);
+
+        if (matcher.find()) {
+            String firstPrice = matcher.group(); // Extracts "$500.00"
+            return firstPrice;
+        } else {
+            System.out.println("No price found.");
+        }
+        return "00.00";
+    }
 }
