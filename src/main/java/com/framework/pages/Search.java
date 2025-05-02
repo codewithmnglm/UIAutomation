@@ -46,7 +46,11 @@ public class Search extends BasePage {
     @FindBy(xpath = "//div[@id='content']/div[3]/div")
     private List<WebElement> noOfProduct;
 
+    @FindBy(xpath = "//a[@id='wishlist-total']")
+    private WebElement wishList;
 
+    @FindBy(xpath = "//a[@title='Shopping Cart']")
+    private WebElement shoppingCart;
 
     public String getProductName(int productIndex) {
 
@@ -133,6 +137,18 @@ public class Search extends BasePage {
     public void sortProductByNameZ2A(){
 
         searchFromDropdownByText(sortBy,"Name (Z - A)");
+    }
+
+    public Account.WishList navigateToWishListPage(){
+
+        WaitUtils.waitForVisibility(driver,wishList).click();
+        return new Account.WishList(driver);
+    }
+
+    public ShoppingCart navigateToCartPage(){
+
+        WaitUtils.waitForVisibility(driver,shoppingCart).click();
+        return new ShoppingCart(driver);
     }
 
 
