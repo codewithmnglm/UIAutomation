@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -281,6 +282,11 @@ public class HomePage extends BasePage {
         searchIcon.click();
         TestLog.stepInfo("Search Page Title Is ::::" + this.driver.getTitle());
         return new Search(driver);
+    }
+
+    public void validatePages(){
+
+        WaitUtils.waitFor(ExpectedConditions.elementToBeClickable(searchBar),this.driver,5);
     }
 
 

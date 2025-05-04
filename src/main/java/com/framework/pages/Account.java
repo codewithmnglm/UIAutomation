@@ -9,9 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Account extends BasePage {
 
@@ -95,6 +98,7 @@ public class Account extends BasePage {
 
     public void verifyAccountPageElements() {
         verifyElementDisplayed(editAccount, "Edit Account");
+       // WaitUtils.waitFor(ExpectedConditions.visibilityOf(editAccount), this.driver, 5);
         verifyElementDisplayed(changePwd, "Change Password");
         verifyElementDisplayed(modifyAddress, "Modify Address Book");
         verifyElementDisplayed(modifyWishList, "Modify Wish List");
@@ -106,11 +110,16 @@ public class Account extends BasePage {
     }
 
     private void verifyElementDisplayed(WebElement element, String elementName) {
-        if (WaitUtils.waitForVisibility(driver, element).isEnabled() || WaitUtils.waitForVisibility(driver, element).isDisplayed()) {
-            TestLog.stepInfo(elementName + " is visible and enabled.");
-        } else {
-            throw new AssertionError(elementName + " is NOT visible or enabled.");
-        }
+
+        Optional.ofNullable(element).
+                filter(e -> e.isDisplayed() && e.isEnabled()).ifPresentOrElse(
+                        e -> TestLog.stepInfo(elementName + " is visible and enabled."), () ->
+                        {
+                            throw new AssertionError(elementName + " is not visible or enabled.");
+                        }
+
+                );
+
 
     }
 
@@ -222,19 +231,19 @@ public class Account extends BasePage {
         }
 
         public boolean isLogOffMsgDisplayed() {
-            return WaitUtils.waitForVisibility(driver, loggOffMsg).isDisplayed();
+            return WaitUtils.waitFor(ExpectedConditions.visibilityOf(loggOffMsg),driver,5).isDisplayed();
         }
 
         public boolean isLogOutMsgDisplayed() {
-            return WaitUtils.waitForVisibility(driver, logoutMsg).isDisplayed();
+            return WaitUtils.waitFor(ExpectedConditions.visibilityOf(logoutMsg),driver,5).isDisplayed();
         }
 
         public boolean isAccountLogoutDisplayed() {
-            return WaitUtils.waitForVisibility(driver, accountLogout).isDisplayed();
+            return WaitUtils.waitFor(ExpectedConditions.visibilityOf(accountLogout),driver,5).isDisplayed();
         }
 
         public boolean isContinueBtnEnabled() {
-            return WaitUtils.waitForVisibility(driver, continueBtn).isEnabled();
+            return WaitUtils.waitFor(ExpectedConditions.elementToBeClickable(continueBtn),driver,5).isEnabled();
         }
 
 
