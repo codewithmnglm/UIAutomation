@@ -4,27 +4,15 @@ import com.framework.factory.Constant;
 import com.framework.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 
 public class CommonMethods {
-
-    public boolean isDisplayed(WebDriver driver, WebElement wb) {
-
-        return WaitUtils.waitForVisibility(driver, wb).isDisplayed();
-    }
-
-    public boolean isEnabled(WebDriver driver, WebElement wb) {
-
-        return WaitUtils.waitForVisibility(driver, wb).isEnabled();
-    }
-
-    public boolean isSelected(WebDriver driver, WebElement wb) {
-
-        return WaitUtils.waitForVisibility(driver, wb).isSelected();
-    }
 
     public int returnProductIndex(String productName) {
 
@@ -50,6 +38,7 @@ public class CommonMethods {
         return "";
 
     }
+
     //return sorted ascending or descending list
     public static <T extends Comparable<T>> boolean isSorted(List<T> list, boolean ascending) {
         for (int i = 0; i < list.size() - 1; i++) {
@@ -60,4 +49,7 @@ public class CommonMethods {
         }
         return true;
     }
+
+
+
 }
