@@ -10,7 +10,9 @@ import com.google.common.util.concurrent.Uninterruptibles;
 import com.framework.factory.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
 import java.util.Map;
@@ -21,17 +23,17 @@ public class BaseTest {
     public WebDriver driver;
 
 
-    @BeforeTest
+    @BeforeMethod
     public void setUpDriver() {
         this.driver = DriverFactory.getDriver("chrome"); //Get The Name of Browser from either config files or as JENKINS Input
         TestLog.stepInfo("Chrome Driver Set Up Completed");
 
     }
 
-    @AfterTest
+    @AfterMethod
     public void quitDriver() {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
-       // this.driver.quit();
+        this.driver.quit();
         TestLog.stepInfo("Quit Driver Completed");
 
     }

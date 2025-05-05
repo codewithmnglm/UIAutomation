@@ -1,4 +1,4 @@
-package com.tests.account;
+package com.tests.Account;
 
 import com.base.BaseTest;
 import com.framework.exceptions.PageLoadException;
@@ -25,8 +25,8 @@ public class RegistrationFlowTest extends BaseTest {
     public void registerUser() throws PageLoadException {
         Register registerPage = goToRegisterUserPage();
         //Pick Data from Excel or JSON
-        Account.Success myAccountSuccess = registerPage.registerNewUser("Ramesh6", "Kumar6", "ramesh0076@gmail.com",
-                "7871234", "rameshUser6", "rameshUser6");
+        Account.Success myAccountSuccess = registerPage.registerNewUser("Suresh123", "Kumar123", "Suresh5123@gmail.com",
+                "000765", "SureshUser123", "SureshUser123");
         assertPageTitle(myAccountSuccess.getTitle(driver), Constant.ACCOUNT_PAGE_SUCCESS_TITLE, "Accounts Success Page");
         myAccountSuccess.verifyAccountSuccessPageElements();
         TestLog.stepInfo("✅User is Successfully Registered and on Account Page");
