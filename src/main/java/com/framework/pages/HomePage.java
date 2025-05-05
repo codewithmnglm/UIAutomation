@@ -78,10 +78,10 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[@title='Shopping Cart']")
     private WebElement checkOut;
 
-    @FindBy(xpath = "//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/register']")
+    @FindBy(xpath = "//li//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/register' and contains(text(),'Register')]")
     private WebElement registerLink;
 
-    @FindBy(xpath = "//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/login']")
+    @FindBy(xpath = "//li//a[@href='https://naveenautomationlabs.com/opencart/index.php?route=account/login']")
     private WebElement login;
 
     @FindBy(xpath = "//a[@title='My Account']")
@@ -223,7 +223,7 @@ public class HomePage extends BasePage {
 
     private By locateProductByIndex(int productIndex, String productFeature) {
         if (productFeature.equalsIgnoreCase("AddToCart")) {
-            return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button//span[text()='Add to Cart']");
+            return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button[1]");
         } else if (productFeature.equalsIgnoreCase("AddToWishList")) {
             return By.xpath("//div[@id='content']//div[@class='row']/div[" + productIndex + "]/div[1]/div[3]//button[@data-original-title='Add to Wish List']");
         } else
