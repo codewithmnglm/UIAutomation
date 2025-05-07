@@ -19,7 +19,7 @@ import static io.qameta.allure.SeverityLevel.BLOCKER;
 public class RegistrationFlowTest extends BaseTest {
     HomePage homePage;
 
-    @Test
+    @Test(groups = {"regression"})
     @Severity(BLOCKER)
     @Description("Verify If New Registrations are getting created")
     public void registerUser() throws PageLoadException {
@@ -42,7 +42,7 @@ public class RegistrationFlowTest extends BaseTest {
     }
 
     @SneakyThrows
-    @Test
+    @Test(groups = {"regression"})
     @Severity(BLOCKER)
     @Description("Create Account For Exiting User")
     public void createRegistrationForExistingUser() {
@@ -60,7 +60,7 @@ public class RegistrationFlowTest extends BaseTest {
     }
 
     @SneakyThrows
-    @Test
+    @Test(groups = {"regression"})
     @Severity(BLOCKER)
     @Description("Create Account With Already Registered User")
     public void registerForAlreadyRegisteredEmail() {

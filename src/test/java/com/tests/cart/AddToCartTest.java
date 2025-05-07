@@ -17,7 +17,7 @@ import static io.qameta.allure.SeverityLevel.BLOCKER;
 
 public class AddToCartTest extends BaseTest {
 
-    @Test
+    @Test(groups = {"smoke"})
     @Severity(BLOCKER)
     @Description("Add The Product By Index")
     public void addProductToCartByIndex() throws PageLoadException {
@@ -39,10 +39,11 @@ public class AddToCartTest extends BaseTest {
 
     }
 
-    @Test
+    @Test(groups={"smoke"})
     @Severity(BLOCKER)
     @Description("Add The Product By Name")
     public void addProductToCartByName() throws PageLoadException {
+        setUpDriver();
         HomePage homePage = goToHomePage();
         //Using Builder Pattern to Pass Product Details
         Product product = Product.builder().productName("MacBook").
