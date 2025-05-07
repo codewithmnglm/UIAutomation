@@ -1,4 +1,4 @@
-package com.tests.login;
+package com.tests.Login;
 
 import com.base.BaseTest;
 import com.framework.exceptions.PageLoadException;
@@ -18,7 +18,7 @@ public class LoginTest extends BaseTest {
     private Login loginPage;
     private Account accountPage;
 
-    @Test
+    @Test(groups = {"smoke"})
     @Severity(BLOCKER)
     @Description("Verify UI Page is Running")
     public void openHomePage() throws PageLoadException {
@@ -27,7 +27,7 @@ public class LoginTest extends BaseTest {
         TestLog.testPass("Verify UI Page is Running Test Case Passed");
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     @Severity(BLOCKER)
     @Description("Verify User Is Able to Login")
     public void verifyLoginUser() throws PageLoadException {
@@ -41,7 +41,7 @@ public class LoginTest extends BaseTest {
         TestLog.testPass("✅ Verify Login User Test Case Passed");
     }
 
-    @Test
+    @Test(groups = {"smoke"})
     @Severity(BLOCKER)
     @Description("Invalid User should not be able to login")
     public void verifyInvalidLoginUser() throws PageLoadException {

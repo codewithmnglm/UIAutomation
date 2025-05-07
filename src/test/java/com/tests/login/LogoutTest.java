@@ -16,7 +16,7 @@ public class LogoutTest extends BaseTest {
 
     private Login loginPage;
     private Account accountPage;
-    @Test
+    @Test(groups = {"smoke"})
     @Description("User Logs Out Successfully")
     @Severity(SeverityLevel.BLOCKER)
     private void existingUserLogOut() throws PageLoadException {
