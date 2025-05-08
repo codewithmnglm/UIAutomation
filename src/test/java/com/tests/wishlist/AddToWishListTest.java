@@ -4,19 +4,23 @@ import com.base.BaseTest;
 import com.framework.base.Product;
 import com.framework.exceptions.PageLoadException;
 import com.framework.factory.Constant;
+import com.framework.listener.CustomListener;
+import com.framework.listener.RetryAnalyzer;
 import com.framework.pages.Account;
 import com.framework.pages.HomePage;
 import com.framework.reporting.TestLog;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import org.testng.util.RetryAnalyzerCount;
 
 import static io.qameta.allure.SeverityLevel.BLOCKER;
 
+@Listeners(CustomListener.class)
 public class AddToWishListTest extends BaseTest {
-
-    @Test
+    @Test(retryAnalyzer = RetryAnalyzer.class)
     @Severity(BLOCKER)
     @Description("Add The Product To WishList By Index")
     public void addProductToWishListByIndex() throws PageLoadException {

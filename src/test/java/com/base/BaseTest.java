@@ -25,7 +25,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUpDriver() {
-        this.driver = DriverFactory.getDriver("chrome"); //Get The Name of Browser from either config files or as JENKINS Input
+        this.driver = DriverFactory.getDriver("firefox"); //Get The Name of Browser from either config files or as JENKINS Input
         TestLog.stepInfo("Chrome Driver Set Up Completed");
 
     }
