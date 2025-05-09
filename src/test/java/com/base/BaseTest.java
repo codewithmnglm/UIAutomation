@@ -6,10 +6,12 @@ import com.framework.pages.Account;
 import com.framework.pages.HomePage;
 import com.framework.pages.Register;
 import com.framework.reporting.TestLog;
+import com.framework.utils.ScreenshotUtil;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.framework.factory.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -31,8 +33,11 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void quitDriver() {
+    public void quitDriver(ITestResult result) {
         Uninterruptibles.sleepUninterruptibly(3, TimeUnit.SECONDS);
+        if (result.getStatus() == ITestResult.FAILURE) {
+            ScreenshotUtil.captureScreenshot(driver, result.getName());
+        }
         this.driver.quit();
         TestLog.stepInfo("Quit Driver Completed");
 
@@ -64,23 +69,24 @@ public class BaseTest {
         return new Register(driver);
     }
 
-    public void verifyLogoutPageElements(Account.Logout logoutPage){
+    public void verifyLogoutPageElements(Account.Logout logoutPage) {
         Assert.assertTrue(logoutPage.isAccountLogoutDisplayed(), "Account Log Out Field is not Displayed");
         Assert.assertTrue(logoutPage.isContinueBtnEnabled(), "Continue Button is not Enabled");
         Assert.assertTrue(logoutPage.isLogOffMsgDisplayed(), "Log Off Msg Field is not Displayed");
         Assert.assertTrue(logoutPage.isLogOutMsgDisplayed(), "Log Out Msg Field is not Displayed");
-        assertPageTitle(logoutPage.getTitle(driver),Constant.LOGOUT_PAGE_TITLE,"Log Out Page");
+        assertPageTitle(logoutPage.getTitle(driver), Constant.LOGOUT_PAGE_TITLE, "Log Out Page");
     }
 
     public void verifyElement(boolean condition, String elementName) {
         Assert.assertTrue(condition, elementName + " is not present/enabled");
         TestLog.stepInfo(elementName + " is Present and Enabled/Displayed");
     }
-    public int returnProductIndex(String productName){
+
+    public int returnProductIndex(String productName) {
 
         Map<String, Integer> map = Map.ofEntries(
                 Map.entry("MacBook", 1),
-                Map.entry("iPhone",2),
+                Map.entry("iPhone", 2),
                 Map.entry("Apple Cinema 30", 3),
                 Map.entry("Canon EOS 5D", 4)
         );
@@ -95,7 +101,7 @@ public class BaseTest {
         return homePage;
     }
 
-    public String priceExtractor(String priceText,String regex){
+    public String priceExtractor(String priceText, String regex) {
 
 
         java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(regex).matcher(priceText);
