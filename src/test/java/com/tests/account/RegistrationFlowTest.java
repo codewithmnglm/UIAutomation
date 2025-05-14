@@ -1,4 +1,4 @@
-package com.tests.Account;
+package com.tests.account;
 
 import com.base.BaseTest;
 import com.framework.exceptions.PageLoadException;

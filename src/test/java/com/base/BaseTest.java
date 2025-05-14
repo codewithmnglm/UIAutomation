@@ -101,17 +101,30 @@ public class BaseTest {
         return homePage;
     }
 
-    public String priceExtractor(String priceText, String regex) {
-
-
-        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile(regex).matcher(priceText);
-
-        if (matcher.find()) {
-            String firstPrice = matcher.group(); // Extracts "$500.00"
-            return firstPrice;
-        } else {
-            System.out.println("No price found.");
+    public String priceExtractor(String priceText, String pricePattern) {
+        if (priceText == null || priceText.trim().isEmpty()) {
+            throw new IllegalArgumentException("Price text cannot be null or empty");
         }
-        return "00.00";
+        if (pricePattern == null || pricePattern.trim().isEmpty()) {
+            throw new IllegalArgumentException("Price pattern cannot be null or empty");
+        }
+
+        try {
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(pricePattern);
+            java.util.regex.Matcher matcher = pattern.matcher(priceText);
+
+            if (matcher.find()) {
+                String extractedPrice = matcher.group();
+                TestLog.stepInfo("Successfully extracted price: " + extractedPrice);
+                return extractedPrice;
+            } else {
+                TestLog.stepInfo("No price found in text: " + priceText);
+                return "0.00";
+            }
+        } catch (java.util.regex.PatternSyntaxException e) {
+            String errorMsg = "Invalid price pattern: " + e.getMessage();
+            TestLog.stepInfo(errorMsg);
+            throw new IllegalArgumentException(errorMsg, e);
+        }
     }
 }

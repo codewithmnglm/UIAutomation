@@ -1,4 +1,4 @@
-package com.tests.Login;
+package com.tests.login;
 
 import com.base.BaseTest;
 import com.framework.exceptions.PageLoadException;
