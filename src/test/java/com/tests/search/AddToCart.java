@@ -7,7 +7,6 @@ import com.framework.pages.*;
 import com.framework.reporting.TestLog;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
-import org.openqa.selenium.devtools.v85.backgroundservice.BackgroundService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
